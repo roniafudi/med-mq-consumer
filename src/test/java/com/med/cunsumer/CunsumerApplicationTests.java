@@ -1,6 +1,6 @@
 package com.med.cunsumer;
 
-import com.med.CunsumerApplication;
+import com.med.ConsumerApplication;
 import com.med.apis.MedPeriodsController;
 import com.med.model.MedRangeInfo;
 import com.med.model.PatientMedPeriod;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@SpringBootTest(classes = {CunsumerApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = {ConsumerApplication.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CunsumerApplicationTests {
 
     @Autowired

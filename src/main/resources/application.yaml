@@ -24,4 +24,6 @@ consumer:
   rabbitmq:
     queue: 'new.events'
 
+server:
+  port:8181
 

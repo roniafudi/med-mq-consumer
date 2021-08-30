@@ -6,10 +6,10 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @SpringBootApplication
-public class CunsumerApplication {
+public class ConsumerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CunsumerApplication.class, args);
+		SpringApplication.run(ConsumerApplication.class, args);
 	}
 
 }

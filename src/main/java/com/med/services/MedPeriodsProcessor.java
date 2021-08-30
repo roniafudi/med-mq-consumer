@@ -22,7 +22,6 @@ public class MedPeriodsProcessor {
         this.builder = builder;
     }
 
-
     public List<PatientMedPeriod> getPatientMedPeriods(String pId) {
         List<PatientMedPeriod> periods = new ArrayList<>();
 

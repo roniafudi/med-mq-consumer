@@ -14,15 +14,15 @@
 #      depends_on:
 #        - rabbitmq
 #
-#    rabbitmq:
-#      image: rabbitmq:3.8.1-management
-#      container_name: rabbitmq
-#      environment:
-#        RABBITMQ_DEFAULT_USER: admin
-#        RABBITMQ_DEFAULT_PASS: password
-#      ports:
-#        - 5672:5672
-#        - 15672:15672
+    rabbitmq:
+      image: rabbitmq:3.8.1-management
+      container_name: rabbitmq
+      environment:
+        RABBITMQ_DEFAULT_USER: admin
+        RABBITMQ_DEFAULT_PASS: password
+      ports:
+        - 5672:5672
+        - 15672:15672
 
     postgres:
       image: postgres:12.0
@@ -42,3 +42,4 @@
   volumes:
     postgresql-volume:
       external: true
+
