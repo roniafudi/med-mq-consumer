@@ -4,7 +4,6 @@ import com.med.CunsumerApplication;
 import com.med.apis.MedRangesController;
 import com.med.model.MedRangeInfo;
 import com.med.model.PatientMedPeriod;
-import com.med.persistence.entities.MedChange;
 import com.med.persistence.repositories.MedRangeRepository;
 import com.med.services.MedChangeEventWriter;
 import org.junit.jupiter.api.Test;
@@ -41,14 +40,14 @@ class CunsumerApplicationTests {
 
 
     @Test
-    void basicApiTest() throws ParseException {
+    void testSinglePeriod() throws ParseException {
         repo.deleteAll();
         data.add(new MedRangeInfo("1","x","start",getDate("2021-01-01T00:00:00+0000")));
         data.add(new MedRangeInfo("1","x","stop",getDate("2021-01-01T01:00:00+0000")));
 
         data.stream().forEach(info -> processor.processMedRange(info));
 
-        List<PatientMedPeriod> res = controller.getMedRangesByMedName("1");
+        List<PatientMedPeriod> res = controller.getClientMedPeriods("1");
         assert(res.size() == 1);
 
     }
@@ -65,9 +64,9 @@ class CunsumerApplicationTests {
 
         data.stream().forEach(info -> processor.processMedRange(info));
 
-        List<PatientMedPeriod> res_1 = controller.getMedRangesByMedName("1");
+        List<PatientMedPeriod> res_1 = controller.getClientMedPeriods("1");
         assert(res_1.size() == 1);
-        List<PatientMedPeriod> res_2 = controller.getMedRangesByMedName("2");
+        List<PatientMedPeriod> res_2 = controller.getClientMedPeriods("2");
         assert(res_2.size() == 2);
 
     }
@@ -80,20 +79,31 @@ class CunsumerApplicationTests {
 
         data.stream().forEach(info -> processor.processMedRange(info));
 
-        List<PatientMedPeriod> res = controller.getMedRangesByMedName("1");
+        List<PatientMedPeriod> res = controller.getClientMedPeriods("1");
         assert(res.size() == 0);
 
     }
 
 
     @Test
-    void testOnlyCancel() throws ParseException {
+    void testCancelBeforeStart() throws ParseException {
         repo.deleteAll();
-        data.add(new MedRangeInfo("1","x","cancel",getDate("2021-01-01T00:00:00+0000")));
+        data.add(new MedRangeInfo("1","x","stop",getDate("2021-01-01T00:00:00+0000")));
+        data.add(new MedRangeInfo("1","x","start",getDate("2021-01-01T03:00:00+0000")));
+        data.add(new MedRangeInfo("1","x","stop",getDate("2021-01-01T04:00:00+0000")));
 
         data.stream().forEach(info -> processor.processMedRange(info));
 
-        List<PatientMedPeriod> res = controller.getMedRangesByMedName("1");
+        List<PatientMedPeriod> res = controller.getClientMedPeriods("1");
+        assert(res.size() == 1);
+
+    }
+
+    @Test
+    void testEmptyResults() {
+        repo.deleteAll();
+
+        List<PatientMedPeriod> res = controller.getClientMedPeriods("undefined");
         assert(res.size() == 0);
 
     }
@@ -108,7 +118,7 @@ class CunsumerApplicationTests {
 
         data.stream().forEach(info -> processor.processMedRange(info));
 
-        List<PatientMedPeriod> res = controller.getMedRangesByMedName("1");
+        List<PatientMedPeriod> res = controller.getClientMedPeriods("1");
         assert(res.size() == 2);
 
     }

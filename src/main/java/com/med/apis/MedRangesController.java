@@ -19,7 +19,7 @@ public class MedRangesController {
 
     @GetMapping("/api/med-ranges/{id}")
     @ResponseBody
-    public List<PatientMedPeriod> getMedRangesByMedName(@PathVariable("id") String pid) {
+    public List<PatientMedPeriod> getClientMedPeriods(@PathVariable("id") String pid) {
 
         List<PatientMedPeriod> details = processor.getPatientMedPeriods(pid);
         return details;

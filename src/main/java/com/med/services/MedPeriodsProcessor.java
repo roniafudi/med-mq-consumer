@@ -32,7 +32,7 @@ public class MedPeriodsProcessor {
                 collect(groupingBy(MedChange::getMedName));
 
         for (List<MedChange> list : eventsByMed.values()) {
-            periods.addAll(builder.buildMedPeriods(list));
+            periods.addAll(builder.build(list));
         }
         return periods;
 

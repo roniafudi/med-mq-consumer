@@ -13,16 +13,15 @@ import static java.util.stream.Collectors.groupingBy;
 public class MedPeriodsBuilder {
 
 
-    public List<PatientMedPeriod> buildMedPeriods(List<MedChange> events) {
-        List<MedChange> cleanEvents = filterCancelEvents(events);
-        return buildPeriods(cleanEvents);
+    public List<PatientMedPeriod> build(List<MedChange> events) {
+        return buildPeriods(filterCancelEvents(events));
     }
 
-    private List<PatientMedPeriod> buildPeriods(List<MedChange> cleanEvents) {
+    private List<PatientMedPeriod> buildPeriods(List<MedChange> events) {
         List<PatientMedPeriod> res = new ArrayList<>();
         Stack<MedChange> stack = new Stack<>();
 
-        for(MedChange evt: cleanEvents){
+        for(MedChange evt: events){
             if(evt.getAction().equals("start")){
                 if(stack.isEmpty())
                     stack.push(evt);
