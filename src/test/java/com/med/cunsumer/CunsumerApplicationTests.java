@@ -123,6 +123,52 @@ class CunsumerApplicationTests {
 
     }
 
+    @Test
+    void testCancelStartAfterClose() throws ParseException {
+        repo.deleteAll();
+        data.add(new MedRangeInfo("1","x","start",getDate("2021-01-01T00:00:00+0000")));
+        data.add(new MedRangeInfo("1","x","stop",getDate("2021-01-01T01:00:00+0000")));
+        data.add(new MedRangeInfo("1","x","cancel_start",getDate("2021-01-01T03:00:00+0000")));
+
+        data.add(new MedRangeInfo("1","x","start",getDate("2021-01-01T07:00:00+0000")));
+        data.add(new MedRangeInfo("1","x","stop",getDate("2021-01-01T08:00:00+0000")));
+
+        data.stream().forEach(info -> processor.processMedRange(info));
+
+        List<PatientMedPeriod> res = controller.getClientMedPeriods("1");
+        assert(res.size() == 1);
+
+    }
+
+    @Test
+    void testStopAfterCancelStop() throws ParseException {
+        repo.deleteAll();
+        data.add(new MedRangeInfo("1","x","start",getDate("2021-01-01T00:00:00+0000")));
+        data.add(new MedRangeInfo("1","x","stop",getDate("2021-01-01T01:00:00+0000")));
+        data.add(new MedRangeInfo("1","x","cancel_stop",getDate("2021-01-01T03:00:00+0000")));
+
+
+        data.stream().forEach(info -> processor.processMedRange(info));
+
+        List<PatientMedPeriod> res = controller.getClientMedPeriods("1");
+        assert(res.size() == 0);
+
+    }
+
+
+    @Test
+    void testStartAndStopSameTime() throws ParseException {
+        repo.deleteAll();
+        data.add(new MedRangeInfo("1","x","start",getDate("2021-01-01T00:00:00+0000")));
+        data.add(new MedRangeInfo("1","x","stop",getDate("2021-01-01T00:00:00+0000")));
+
+        data.stream().forEach(info -> processor.processMedRange(info));
+
+        List<PatientMedPeriod> res = controller.getClientMedPeriods("1");
+        assert(res.size() == 0);
+
+    }
+
 
     private Date getDate(String s) throws ParseException {
         SimpleDateFormat fmt =new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");

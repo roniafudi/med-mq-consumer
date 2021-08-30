@@ -5,31 +5,56 @@ import com.med.persistence.entities.MedChange;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.groupingBy;
 
 @Component
 public class MedPeriodsBuilder {
 
 
     public List<PatientMedPeriod> build(List<MedChange> events) {
-        return buildPeriods(filterCancelEvents(events));
+        return buildPeriods(events);
     }
 
     private List<PatientMedPeriod> buildPeriods(List<MedChange> events) {
         List<PatientMedPeriod> res = new ArrayList<>();
         Stack<MedChange> stack = new Stack<>();
 
-        for(MedChange evt: events){
-            if(evt.getAction().equals("start")){
-                if(stack.isEmpty())
-                    stack.push(evt);
-            }else if(evt.getAction().equals("stop")){
-                if(!stack.isEmpty()){
-                    res.add(createMedPeriod(stack.pop(),evt));
-                }
+        for(MedChange evt: events) {
+            switch (evt.getAction()) {
+                case ("start"):
+                    if (stack.isEmpty())
+                        stack.push(evt);
+                    else if(stack.size()==2) {
+                        MedChange to = stack.pop();
+                        MedChange from = stack.pop();
+                        res.add(createMedPeriod(from,to));
+                        stack.push(evt);
+                    }
+                    break;
+                case ("stop"):
+                    if (stack.size() == 1) {
+                        stack.push(evt);
+                    }else if(stack.size()==2) {
+                        stack.pop();
+                    }
+                    break;
+                case ("cancel_start"):
+                    if (!stack.isEmpty()) {
+                        stack.clear();
+                    }
+                    break;
+                case ("cancel_stop"):
+                    if (!stack.isEmpty() && stack.size()==2) {
+                        stack.pop();
+                    }
+                    break;
             }
+
+        }
+
+        if(stack.size() == 2){
+            MedChange to = stack.pop();
+            MedChange from = stack.pop();
+            res.add(createMedPeriod(from,to));
         }
         return res;
     }
@@ -42,16 +67,7 @@ public class MedPeriodsBuilder {
     //handle cancel_start and cancel_stop events as well as start/stop for the same event_time
     private List<MedChange> filterCancelEvents(List<MedChange> events) {
 
-        Map<Date, List<MedChange>> eventsPerDateMap = events.stream().collect(groupingBy(MedChange::getEventTime));
-        Set<Date> datesToRemove = new HashSet<>();
-        for(Date eventTime : eventsPerDateMap.keySet()){
-            //if 2 events fall on the same time they cancel each other (either start/stop_start or close/stop_close or start/stop)
-            if(eventsPerDateMap.get(eventTime).size() == 2){
-                datesToRemove.add(eventTime);
-            }
-        }
 
-        return events.stream().filter(r -> datesToRemove.contains(r.getEventTime()) == false).collect(Collectors.toList());
-
+        return events;
     }
 }

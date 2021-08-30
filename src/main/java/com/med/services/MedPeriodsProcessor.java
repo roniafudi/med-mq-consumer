@@ -5,6 +5,7 @@ import com.med.persistence.entities.MedChange;
 import com.med.persistence.repositories.MedPeriodsRepository;
 import org.springframework.stereotype.Component;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 import static java.util.stream.Collectors.groupingBy;
@@ -34,7 +35,9 @@ public class MedPeriodsProcessor {
         for (List<MedChange> list : eventsByMed.values()) {
             periods.addAll(builder.build(list));
         }
-        return periods;
+
+        //filter out periods where start_time = end_time
+        return periods.stream().filter(p -> !p.endDate.equals(p.startDate)).collect(Collectors.toList());
 
     }
 
