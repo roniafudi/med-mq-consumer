@@ -41,6 +41,25 @@ class CunsumerApplicationTests {
 
 
     @Test
+    void testEventsFromEventsfile() throws ParseException {
+        repo.deleteAll();
+        data.add(new MedRangeInfo("1","x","start",getDate("2021-01-01T00:00:00+0000")));
+        data.add(new MedRangeInfo("1","x","stop",getDate("2021-01-01T01:00:00+0000")));
+        data.add(new MedRangeInfo("2","y","start",getDate("2021-01-01T00:00:00+0000")));
+        data.add(new MedRangeInfo("2","y","stop",getDate("2021-01-01T01:00:00+0000")));
+        data.add(new MedRangeInfo("2","y","start",getDate("2021-01-01T02:00:00+0000")));
+        data.add(new MedRangeInfo("2","y","stop",getDate("2021-01-01T03:00:00+0000")));
+
+        data.stream().forEach(info -> processor.processMedRange(info));
+
+        List<PatientMedPeriod> res_1 = controller.getMedRangesByMedName("1");
+        assert(res_1.size() == 1);
+        List<PatientMedPeriod> res_2 = controller.getMedRangesByMedName("2");
+        assert(res_2.size() == 2);
+
+    }
+
+    @Test
     void basicApiTest() throws ParseException {
         repo.deleteAll();
         data.add(new MedRangeInfo("1","x","start",getDate("2021-01-01T00:00:00+0000")));
