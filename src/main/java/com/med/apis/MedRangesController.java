@@ -1,7 +1,6 @@
 package com.med.apis;
 
 import com.med.model.PatientMedPeriod;
-import com.med.persistence.entities.MedChange;
 import com.med.persistence.repositories.MedRangeRepository;
 import com.med.services.MedPeriodsProcessor;
 import org.springframework.web.bind.annotation.*;
