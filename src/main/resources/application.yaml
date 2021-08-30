@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    driverClassName: org.postgresql.Driver
+    driver : org.postgresql.Driver
+    url: 'jdbc:postgresql://localhost:5432/clew_medical'
+    username: admin
+    password: password
+  jpa:
+    currenct_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+    properties:
+      hibernate:
+        currenct_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+        generate_statistics: false
+    hibernate:
+      ddl-auto: create
+
+  rabbitmq:
+    host: rabbitmq
+    username: admin
+    password: password
+    port: 15672
+
+consumer:
+  rabbitmq:
+    queue: 'new.events'
+
+
