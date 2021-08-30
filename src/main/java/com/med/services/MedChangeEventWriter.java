@@ -2,16 +2,16 @@ package com.med.services;
 
 import com.med.model.MedRangeInfo;
 import com.med.persistence.entities.MedChange;
-import com.med.persistence.repositories.MedRangeRepository;
+import com.med.persistence.repositories.MedPeriodsRepository;
 import org.springframework.stereotype.Component;
 import java.text.ParseException;
 
 @Component
 public class MedChangeEventWriter {
 
-    private final MedRangeRepository repo;
+    private final MedPeriodsRepository repo;
 
-    public MedChangeEventWriter(MedRangeRepository repo) {
+    public MedChangeEventWriter(MedPeriodsRepository repo) {
         this.repo = repo;
     }
 

@@ -1,10 +1,10 @@
 package com.med.cunsumer;
 
 import com.med.CunsumerApplication;
-import com.med.apis.MedRangesController;
+import com.med.apis.MedPeriodsController;
 import com.med.model.MedRangeInfo;
 import com.med.model.PatientMedPeriod;
-import com.med.persistence.repositories.MedRangeRepository;
+import com.med.persistence.repositories.MedPeriodsRepository;
 import com.med.services.MedChangeEventWriter;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +25,10 @@ class CunsumerApplicationTests {
     MedChangeEventWriter processor;
 
     @Autowired
-    MedRangeRepository repo;
+    MedPeriodsRepository repo;
 
     @Autowired
-    MedRangesController controller;
+    MedPeriodsController controller;
 
     @LocalServerPort
     private int port;

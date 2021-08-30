@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public interface MedRangeRepository extends PagingAndSortingRepository<MedChange,Long> {
+public interface MedPeriodsRepository extends PagingAndSortingRepository<MedChange,Long> {
 
     List<MedChange> findAllByPatientId(String pid);
     List<MedChange> findAllByMedName(String pid);

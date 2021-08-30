@@ -2,7 +2,7 @@ package com.med.services;
 
 import com.med.model.PatientMedPeriod;
 import com.med.persistence.entities.MedChange;
-import com.med.persistence.repositories.MedRangeRepository;
+import com.med.persistence.repositories.MedPeriodsRepository;
 import org.springframework.stereotype.Component;
 import java.util.*;
 
@@ -13,10 +13,10 @@ import static java.util.stream.Collectors.groupingBy;
 @Component
 public class MedPeriodsProcessor {
 
-    private final MedRangeRepository repo;
+    private final MedPeriodsRepository repo;
     private final MedPeriodsBuilder builder;
 
-    public MedPeriodsProcessor(MedRangeRepository repo,MedPeriodsBuilder builder) {
+    public MedPeriodsProcessor(MedPeriodsRepository repo, MedPeriodsBuilder builder) {
         this.repo = repo;
         this.builder = builder;
     }

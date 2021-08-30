@@ -1,23 +1,23 @@
 package com.med.apis;
 
 import com.med.model.PatientMedPeriod;
-import com.med.persistence.repositories.MedRangeRepository;
+import com.med.persistence.repositories.MedPeriodsRepository;
 import com.med.services.MedPeriodsProcessor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-public class MedRangesController {
-    final MedRangeRepository repo;
+public class MedPeriodsController {
+    final MedPeriodsRepository repo;
     final MedPeriodsProcessor processor;
 
-    public MedRangesController(MedPeriodsProcessor processor, MedRangeRepository repo) {
+    public MedPeriodsController(MedPeriodsProcessor processor, MedPeriodsRepository repo) {
         this.processor = processor;
         this.repo = repo;
     }
 
-    @GetMapping("/api/med-ranges/{id}")
+    @GetMapping("/api/med-periods/{id}")
     @ResponseBody
     public List<PatientMedPeriod> getClientMedPeriods(@PathVariable("id") String pid) {
 
