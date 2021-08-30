@@ -31,10 +31,6 @@ public class MedPeriodsProcessor {
                 sorted(Comparator. comparingLong(MedChange::getEventTimeInMillis)).
                 collect(groupingBy(MedChange::getMedName));
 
-//        List<MedChange> res = eventsByMed.values().stream()
-//                .flatMap(List::stream)
-//                .collect(Collectors.toList());
-
         for (List<MedChange> list : eventsByMed.values()) {
             periods.addAll(builder.buildMedPeriods(list));
         }
